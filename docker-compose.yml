@@ -3,12 +3,12 @@ services:
   
   #PHP Service
   app:
-    args:
-      user: rbartnik
-      uid: 1000
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        user: rbartnik
+        uid: 1000
     image: digitalocean.com/php
     container_name: app
     restart: unless-stopped
