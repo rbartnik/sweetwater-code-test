@@ -19,8 +19,6 @@ return new class extends Migration
             $table->text('comments');
             $table->datetime('shipdate_expected');
             $table->primary('orderid');
-            $table->charset = "utf8";
-            $table->collation = "utf8_general_ci";
         });
     }
 
