@@ -14,6 +14,10 @@ class CommentsReportController extends Controller
      */
     public function index()
     {
+        // Call the stored procedure to update shipdate_expected for records that need it.
+        DB::unprepared('call update_comments_shipdate_expected();');
+
+        // Call the view for the correct page worth of data, for each comment type.
         $candy = DB::table('comments_report')->where('comment_type', 'candy')->paginate(5, ['*'], 'candy');
         $callme = DB::table('comments_report')->where('comment_type', 'callme')->paginate(5, ['*'], 'callme');
         $referral = DB::table('comments_report')->where('comment_type', 'referral')->paginate(5, ['*'], 'referral');

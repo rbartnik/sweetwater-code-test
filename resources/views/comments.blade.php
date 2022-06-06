@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Comments Report</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -18,14 +18,39 @@
             body {
                 font-family: 'Nunito', sans-serif;
             }
+
+            table {
+                width: 100%;
+            }
+            
+            table tr th, table tr td {
+                vertical-align: top;
+                text-align: left;
+            }
+
+            table tr:nth-child(even) {
+                background-color: #eee;
+            }
         </style>
     </head>
     <body class="antialiased">
         <div>
+            <h1>Sweetwater Code Test - Comments Report</h1>
             <div class="container">
                 <h2>Comments that mention Candy</h2>
                 <table>
-                @foreach ($candy as $comment)
+                    <tr>
+                        <th style="width: 20%;">
+                            Order ID
+                        </th>
+                        <th>
+                            Comments
+                        </th>
+                        <th style="width: 20%">
+                            Expected Ship Date
+                        </th>
+                    </tr>
+                    @foreach ($candy as $comment)
                     <tr>
                         <td>
                             {{ $comment->orderid }}
@@ -36,18 +61,28 @@
                         <td>
                             {{ $comment->shipdate_expected }}
                         </td>
-                    </tr>
-                    
-                @endforeach
+                    </tr>                    
+                    @endforeach
                 </table>
 
                 {{ $candy->links() }}
             </div>
 
             <div class="container">
-            <h2>Comments that mention a Callback</h2>
+                <h2>Comments that mention a Callback</h2>
                 <table>
-                @foreach ($callme as $comment)
+                    <tr>
+                        <th style="width: 20%;">
+                            Order ID
+                        </th>
+                        <th>
+                            Comments
+                        </th>
+                        <th style="width: 20%">
+                            Expected Ship Date
+                        </th>
+                    </tr>
+                    @foreach ($callme as $comment)
                     <tr>
                         <td>
                             {{ $comment->orderid }}
@@ -58,18 +93,28 @@
                         <td>
                             {{ $comment->shipdate_expected }}
                         </td>
-                    </tr>
-                    
-                @endforeach
+                    </tr>                    
+                    @endforeach
                 </table>
 
                 {{ $callme->links() }}
             </div>
 
             <div class="container">
-            <h2>Comments that mention a Referral</h2>
+                <h2>Comments that mention a Referral</h2>
                 <table>
-                @foreach ($referral as $comment)
+                    <tr>
+                        <th style="width: 20%;">
+                            Order ID
+                        </th>
+                        <th>
+                            Comments
+                        </th>
+                        <th style="width: 20%">
+                            Expected Ship Date
+                        </th>
+                    </tr>
+                    @foreach ($referral as $comment)
                     <tr>
                         <td>
                             {{ $comment->orderid }}
@@ -80,18 +125,28 @@
                         <td>
                             {{ $comment->shipdate_expected }}
                         </td>
-                    </tr>
-                    
-                @endforeach
+                    </tr>                    
+                    @endforeach
                 </table>
 
                 {{ $referral->links() }}
             </div>
 
             <div class="container">
-            <h2>Comments that mention a Signature Requirement</h2>
+                <h2>Comments that mention a Signature Requirement</h2>
                 <table>
-                @foreach ($signature as $comment)
+                    <tr>
+                        <th style="width: 20%;">
+                            Order ID
+                        </th>
+                        <th>
+                            Comments
+                        </th>
+                        <th style="width: 20%">
+                            Expected Ship Date
+                        </th>
+                    </tr>
+                    @foreach ($signature as $comment)
                     <tr>
                         <td>
                             {{ $comment->orderid }}
@@ -102,18 +157,28 @@
                         <td>
                             {{ $comment->shipdate_expected }}
                         </td>
-                    </tr>
-                    
-                @endforeach
+                    </tr>                    
+                    @endforeach
                 </table>
 
                 {{ $signature->links() }}
             </div>
 
             <div class="container">
-            <h2>Miscellaneous Comments</h2>
+                <h2>Miscellaneous Comments</h2>
                 <table>
-                @foreach ($misc as $comment)
+                    <tr>
+                        <th style="width: 20%;">
+                            Order ID
+                        </th>
+                        <th>
+                            Comments
+                        </th>
+                        <th style="width: 20%">
+                            Expected Ship Date
+                        </th>
+                    </tr>
+                    @foreach ($misc as $comment)
                     <tr>
                         <td>
                             {{ $comment->orderid }}
@@ -124,9 +189,8 @@
                         <td>
                             {{ $comment->shipdate_expected }}
                         </td>
-                    </tr>
-                    
-                @endforeach
+                    </tr>                    
+                    @endforeach
                 </table>
 
                 {{ $misc->links() }}
