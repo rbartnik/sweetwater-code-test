@@ -1,64 +1,26 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Sweetwater Code Test
+I pulled down the Laravel repo and built my solution on top of it, so apologies for the large number of commits.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+The link to the report is /comments, from the application root.
 
-## About Laravel
+## Implementation
+### Task 1 - Write a report that will display the comments from the table
+I opted to use a SQL view for categorizing the data; it does a 'like' comparison on a lowercased string and assigns one of five categories based on what it finds first, if anything. The SQL for this can be found in the migrations folder in the final migration, create_comments_report_view.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The CommentsReportController queries the view five times on page load; once for each section on the page, pulling a single page of data to render for each. I used Laravel's built in paginator for this. Clicking through to another page rerenders the entire page and requeries for the current page on the unaffected tables, and I'm not terribly happy about it, but the assignment said to work quickly and I'm okay sacrificing the kind of quality here that I would ship.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Make it work, then make it nice, right? I did add a few polish tweaks to make it not-completely-annoying to use.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Task 2- Populate the shipdate_expected field in this table with the date found in the `comments` field (where applicable)
+This was implemented with a stored procedure, the SQL for which is in the migrations folder in the second-to-last migration, update_comments_shipdate_expected_procedure.
 
-## Learning Laravel
+This query updates the table one time only for records with a zero shipdate_expected, if it finds Expected Ship Date in the comment. I did it this way so that I'm not constantly overwriting this field with the same value over and over again. I don't know if comments can change -- it would not be difficult to update this sproc if that requirement was present, to change the date if the date parsed from the comment does not match the date in the column.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+I also had to make an odd preface to this query. Newer versions of MySQL do not allow zero dates and I was having trouble working with this. Rather than figure out how to configure the DB to permanently allow this, I found a solution that temporarily disables zero dates for the active session. The sproc turns this flag off before running.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Setup
+There's a Dockerfile and docker-compose.yml in the project that defines three containers (one for nginx, one for MySQL, and one for the PHP app) and has bind-links setup to allow the PHP code and the database to persist outside of the containers.
 
-## Laravel Sponsors
+After raising the containers, php artisan migrate can be run from the app container to run the database migrations and create the comments table, the sproc for updating ship date, and the view for filtering the data.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+I wasn't sure how to script out seeding the data. I did this part by hand using MySQL Workbench on my Windows box, and I had to use that preface in the sproc to disable the zero date settings and allow the migration to succeed.
