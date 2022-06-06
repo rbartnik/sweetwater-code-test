@@ -36,7 +36,7 @@
     <body class="antialiased">
         <div>
             <h1>Sweetwater Code Test - Comments Report</h1>
-            <div class="container">
+            <div class="container" id="candy">
                 <h2>Comments that mention Candy</h2>
                 <table>
                     <tr>
@@ -65,10 +65,10 @@
                     @endforeach
                 </table>
 
-                {{ $candy->links() }}
+                {{ $candy->fragment("candy")->links() }}
             </div>
 
-            <div class="container">
+            <div class="container" id="callback">
                 <h2>Comments that mention a Callback</h2>
                 <table>
                     <tr>
@@ -97,10 +97,10 @@
                     @endforeach
                 </table>
 
-                {{ $callme->links() }}
+                {{ $callme->fragment("callback")->links() }}
             </div>
 
-            <div class="container">
+            <div class="container" id="referral">
                 <h2>Comments that mention a Referral</h2>
                 <table>
                     <tr>
@@ -129,10 +129,10 @@
                     @endforeach
                 </table>
 
-                {{ $referral->links() }}
+                {{ $referral->fragment("referral")->links() }}
             </div>
 
-            <div class="container">
+            <div class="container" id="signature">
                 <h2>Comments that mention a Signature Requirement</h2>
                 <table>
                     <tr>
@@ -161,10 +161,10 @@
                     @endforeach
                 </table>
 
-                {{ $signature->links() }}
+                {{ $signature->fragment("signature")->links() }}
             </div>
 
-            <div class="container">
+            <div class="container" id="misc">
                 <h2>Miscellaneous Comments</h2>
                 <table>
                     <tr>
@@ -193,7 +193,7 @@
                     @endforeach
                 </table>
 
-                {{ $misc->links() }}
+                {{ $misc->fragment("misc")->links() }}
             </div>
         </div>
     </body>

@@ -22,7 +22,7 @@ class CommentsReportController extends Controller
         $callme = DB::table('comments_report')->where('comment_type', 'callme')->paginate(5, ['*'], 'callme');
         $referral = DB::table('comments_report')->where('comment_type', 'referral')->paginate(5, ['*'], 'referral');
         $signature = DB::table('comments_report')->where('comment_type', 'signature')->paginate(5, ['*'], 'signature');
-        $misc = DB::table('comments_report')->where('comment_type', 'misc')->paginate(5, ['*'], 'misc');
+        $misc = DB::table('comments_report')->where('comment_type', 'misc')->paginate(10, ['*'], 'misc');
  
         return view('comments', ['candy' => $candy, 'callme' => $callme, 'referral' => $referral, 'signature' => $signature, 'misc' => $misc ]);
     }
